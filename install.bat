@@ -1,6 +1,6 @@
 @echo off
 :: =====================================================
-:: Cross Editor Installer 
+:: Cross Editor Installer
 :: =====================================================
 
 :: --- Self-elevate to Administrator if not already ---
@@ -64,12 +64,33 @@ if exist "%Cross_DIR%\LIBS\launch\LAUNCH.bat" (
     goto :end
 )
 
-:: Step 6: Launch LAUNCH.bat
+:: Step 6: Copy icon.png from LIBS/ASSETS
+if exist "%Cross_DIR%\LIBS\ASSETS\icon.png" (
+    echo Copying icon.png...
+    copy "%Cross_DIR%\LIBS\ASSETS\icon.png" "%Cross_DIR%\icon.png" >nul
+) else (
+    echo [WARNING] icon.png not found in LIBS\ASSETS
+)
+
+:: Step 7: Create Desktop Shortcut with icon
 echo.
-echo Starting Cross Editor...
-cd /d "%Cross_DIR%"
-call LAUNCH.bat
+echo Creating desktop shortcut for Cross Editor...
+set "TARGET=%Cross_DIR%\LAUNCH.bat"
+set "SHORTCUT=%USERPROFILE%\Desktop\Cross Editor.lnk"
+set "ICON=%Cross_DIR%\icon.png"
+
+powershell -NoLogo -NoProfile -Command ^
+  "$ws = New-Object -ComObject WScript.Shell; ^
+   $s = $ws.CreateShortcut('%SHORTCUT%'); ^
+   $s.TargetPath = '%TARGET%'; ^
+   $s.WorkingDirectory = '%Cross_DIR%'; ^
+   $s.IconLocation = '%ICON%'; ^
+   $s.Save()"
+
+echo Shortcut created on Desktop: %SHORTCUT%
 
 :end
 echo.
+echo Installation finished. You can now start Cross Editor using the desktop shortcut.
 pause
+exit
