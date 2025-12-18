@@ -33,17 +33,17 @@ echo Using Python: %PYTHON_CMD%
 %PYTHON_CMD% --version
 
 echo Installing required packages...
-%PYTHON_CMD% -m pip install --upgrade pip
-%PYTHON_CMD% -m pip install PySide6 cryptography psutil
+%PYTHON_CMD% -m pip install --upgrade pip >nul
+%PYTHON_CMD% -m pip install PySide6 cryptography psutil >nul
 
 :: Navigate to LIBS\ASSITS and run crs.py
 echo.
 echo Moving into LIBS\ASSITS folder...
 cd /d "%~dp0LIBS\ASSITS"
 
-if exist asb.py (
+if exist Crs.py (
     echo Running crs.py...
-    %PYTHON_CMD% crs.py
+    %PYTHON_CMD% Crs.py
 ) else (
     echo ERROR: crs.py not found in %CD%
 )
