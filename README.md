@@ -9,7 +9,7 @@
  Latest Version : 2.5.0
 
 
- NOTE: This Edtior Is Under The MIT LICENSE
+ NOTE: This Edtior Is Under The Apache V2 LICENSE
 
  **Created By : itsBRO DEV CORP**
  **Thanks to EveryOne That Created This Project**
@@ -23,14 +23,9 @@
 
 **-------------------------------------------**
 
-How To install?
- 
- Run Install.bat
- Make Sure You Have bro-libs
- Wait For it to install
- And DONE!
 
- Go to your desktop and click Cross-Editor
+The BEST EDITOR
+UNDER 1MB SIZE!
 
 
 
