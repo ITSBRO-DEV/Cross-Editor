@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross Editor - Python-Powered Code Editor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-icon {
+            font-size: 3.5rem;
+            transform: rotate(-45deg);
+        }
+        
+        .logo-text {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #ff5e62, #ff9966);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: #a0a0c0;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ff9966;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .feature-icon {
+            font-size: 1.8rem;
+        }
+        
+        .feature-content {
+            color: #c0c0e0;
+            line-height: 1.6;
+        }
+        
+        .download-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(to right, #ff5e62, #ff9966);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(255, 94, 98, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 94, 98, 0.6);
+        }
+        
+        .footer {
+            margin-top: 4rem;
+            text-align: center;
+            color: #707090;
+            font-size: 0.9rem;
+        }
+        
+        .error-box {
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.5);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .error-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .error-title {
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .error-message {
+            color: #ffa8a8;
+            line-height: 1.6;
+        }
+        
+        .windows-check {
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #a0a0c0;
+            font-size: 0.9rem;
+        }
+        
+        .windows-icon {
+            color: #00a4ef;
+            margin-right: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .logo-text {
+                font-size: 2.5rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">💀</div>
+                <h1 class="logo-text">Cross Editor</h1>
+            </div>
+            <p class="tagline">A powerful, Python-powered code editor with a sleek interface and advanced features for Windows 11.</p>
+        </header>
+        
+        <div class="windows-check">
+            <i class="fab fa-windows windows-icon"></i>
+            <span id="os-info">Detecting your operating system...</span>
+        </div>
+        
+        <div class="error-box" id="error-box">
+            <div class="error-icon">🚫</div>
+            <h2 class="error-title">Unsupported Platform</h2>
+            <p class="error-message">Cross Editor is only available for Windows 11. Your current operating system is not supported.</p>
+        </div>
+        
+        <div id="content">
+            <div class="features">
+                <div class="feature-box">
+                    <h2 class="feature-title">
+                        <i class="feature-icon fab fa-python"></i>
+                        Powered With PYTHON
+                    </h2>
+                    <div class="feature-content">
+                        <p>Cross Editor is built with Python, offering robust performance and extensive customization options. Leverage the power of Python libraries and frameworks to enhance your coding experience.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-box">
+                    <h2 class="feature-title">
+                        <i class="feature-icon fab fa-github"></i>
+                        Hosted On Github
+                    </h2>
+                    <div class="feature-content">
+                        <p>Cross Editor is completely open-source and hosted on GitHub. Contribute to the project, report issues, or suggest new features. Join our growing community of developers.</p>
+                        
+                        <ul style="margin-top: 1rem; padding-left: 1.5rem; color: #c0c0e0;">
+                            <li>Open-source and free to use</li>
+                            <li>Active community contributions</li>
+                            <li>Regular updates and bug fixes</li>
+                            <li>Transparent development process</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="download-section">
+                <a href="https://github.com/ITSBRO-DEV/Cross-Editor/releases" class="download-btn" target="_blank">
+                    <i class="fas fa-download"></i>
+                    Download Cross Editor
+                </a>
+                <p style="margin-top: 1rem; color: #a0a0c0;">Available for Windows 11 only</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>|&copy; 2026 ItsBro Dev |</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to detect Windows 11
+        function detectWindows11() {
+            const userAgent = navigator.userAgent;
+            const osInfoElement = document.getElementById('os-info');
+            const errorBox = document.getElementById('error-box');
+            const content = document.getElementById('content');
+            
+            // Check if it's Windows
+            if (userAgent.indexOf('Windows') !== -1) {
+                // Check for Windows 11 (Windows NT 10.0 with specific version)
+                const versionMatch = userAgent.match(/Windows NT (\d+\.\d+)/);
+                
+                if (versionMatch && versionMatch[1] === '10.0') {
+                    // Additional check for Windows 11 (Edge version 94+ or specific Chrome version)
+                    const edgeVersionMatch = userAgent.match(/Edg\/(\d+)/);
+                    
+                    if (edgeVersionMatch && parseInt(edgeVersionMatch[1]) >= 94) {
+                        // Likely Windows 11
+                        osInfoElement.innerHTML = '<i class="fab fa-windows windows-icon"></i> Windows 11 detected. You can download Cross Editor.';
+                        errorBox.style.display = 'none';
+                        content.style.display = 'block';
+                    } else {
+                        // Could be Windows 10 or 11, but we'll assume it's compatible
+                        osInfoElement.innerHTML = '<i class="fab fa-windows windows-icon"></i> Windows detected. Cross Editor should work on your system.';
+                        errorBox.style.display = 'none';
+                        content.style.display = 'block';
+                    }
+                } else {
+                    // Older Windows version
+                    osInfoElement.innerHTML = '<i class="fab fa-windows windows-icon"></i> ' + 
+                        (versionMatch ? `Windows ${versionMatch[1]} detected` : 'Windows detected');
+                    errorBox.style.display = 'block';
+                    content.style.display = 'none';
+                }
+            } else {
+                // Not Windows
+                const platform = navigator.platform;
+                let osName = 'Unknown OS';
+                
+                if (platform.indexOf('Win') !== -1) osName = 'Windows';
+                else if (platform.indexOf('Mac') !== -1) osName = 'macOS';
+                else if (platform.indexOf('Linux') !== -1) osName = 'Linux';
+                
+                osInfoElement.innerHTML = `<i class="fab fa-${osName.toLowerCase()} windows-icon"></i> ${osName} detected`;
+                errorBox.style.display = 'block';
+                content.style.display = 'none';
+            }
+        }
+        
+        // Run detection when page loads
+        document.addEventListener('DOMContentLoaded', detectWindows11);
+    </script>
+</body>
+</html>
